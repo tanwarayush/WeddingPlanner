@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Wedding Cost Estimator – Delhi NCR</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8D49A;
+    --gold-dark: #8B6914;
+    --cream: #FAF6EF;
+    --ivory: #F5EFE4;
+    --blush: #E8C4B0;
+    --deep: #1A0F0A;
+    --wine: #5C1A2E;
+    --charcoal: #2C2219;
+    --muted: #8B7355;
+    --bg: #0E0A06;
+    --card: #1C1409;
+    --card2: #231A0D;
+    --border: rgba(201,168,76,0.2);
+    --border2: rgba(201,168,76,0.08);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-weight:300;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content:'';
+    position:fixed; inset:0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity:0.4; pointer-events:none; z-index:0;
+  }
+
+  .app { position:relative; z-index:1; }
+
+  /* HERO HEADER */
+  .header {
+    text-align:center;
+    padding: 72px 24px 48px;
+    position:relative;
+    overflow:hidden;
+  }
+  .header::before {
+    content:'';
+    position:absolute; inset:0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .header-ornament {
+    display:flex; align-items:center; justify-content:center;
+    gap:16px; margin-bottom:24px;
+  }
+  .ornament-line {
+    height:1px; width:80px;
+    background: linear-gradient(90deg, transparent, var(--gold));
+  }
+  .ornament-line.right { background: linear-gradient(90deg, var(--gold), transparent); }
+  .ornament-diamond {
+    width:8px; height:8px;
+    background:var(--gold);
+    transform:rotate(45deg);
+  }
+  .header-eyebrow {
+    font-family:'Jost',sans-serif;
+    font-weight:500; font-size:11px;
+    letter-spacing:0.35em;
+    color:var(--gold);
+    text-transform:uppercase;
+    margin-bottom:16px;
+  }
+  .header-title {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(42px,7vw,88px);
+    font-weight:300;
+    line-height:1;
+    color:var(--cream);
+    margin-bottom:12px;
+  }
+  .header-title em { font-style:italic; color:var(--gold-light); }
+  .header-subtitle {
+    font-size:15px; font-weight:300;
+    color:var(--muted); letter-spacing:0.05em;
+    max-width:480px; margin:0 auto;
+  }
+
+  /* MAIN LAYOUT */
+  .main {
+    max-width:1440px;
+    margin:0 auto;
+    padding:0 24px 80px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:32px;
+  }
+  @media(max-width:1024px){.main{grid-template-columns:1fr;}}
+
+  /* CARD */
+  .card {
+    background: var(--card);
+    border:1px solid var(--border);
+    border-radius:2px;
+    position:relative;
+    overflow:hidden;
+  }
+  .card::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0;
+    height:1px;
+    background: linear-gradient(90deg, transparent 0%, var(--gold) 50%, transparent 100%);
+    opacity:0.6;
+  }
+  .card-header {
+    padding:28px 32px 20px;
+    border-bottom:1px solid var(--border2);
+    display:flex; align-items:center; gap:12px;
+  }
+  .card-icon {
+    width:32px; height:32px;
+    border:1px solid var(--border);
+    border-radius:2px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:14px; color:var(--gold);
+  }
+  .card-title {
+    font-family:'Cormorant Garamond',serif;
+    font-size:22px; font-weight:400;
+    color:var(--cream);
+  }
+  .card-body { padding:28px 32px; }
+
+  /* FORM ELEMENTS */
+  .form-group { margin-bottom:20px; }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media(max-width:600px){.form-row{grid-template-columns:1fr;}}
+  label {
+    display:block;
+    font-size:11px; font-weight:500;
+    letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:8px;
+  }
+  select, input[type="number"], input[type="range"] {
+    width:100%; background:var(--card2);
+    border:1px solid var(--border);
+    border-radius:2px; color:var(--cream);
+    font-family:'Jost',sans-serif; font-size:14px; font-weight:300;
+    padding:11px 14px;
+    appearance:none; -webkit-appearance:none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline:none;
+  }
+  select:focus, input[type="number"]:focus {
+    border-color:var(--gold);
+    box-shadow:0 0 0 3px rgba(201,168,76,0.08);
+  }
+  select { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; padding-right:36px; }
+  input[type="number"]::-webkit-inner-spin-button { opacity:0.3; }
+
+  /* RANGE SLIDER */
+  .range-wrap { position:relative; }
+  input[type="range"] {
+    padding:0; height:4px; border:none;
+    background: linear-gradient(90deg, var(--gold) var(--pct,50%), var(--card2) var(--pct,50%));
+    cursor:pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance:none;
+    width:16px; height:16px;
+    background:var(--gold); border-radius:50%;
+    border:2px solid var(--bg);
+    margin-top:-6px;
+    cursor:pointer;
+  }
+  .range-labels {
+    display:flex; justify-content:space-between;
+    font-size:11px; color:var(--muted); margin-top:6px;
+  }
+  .range-value {
+    font-size:13px; color:var(--gold-light);
+    font-weight:400; margin-top:4px;
+    text-align:right;
+  }
+
+  /* TOGGLE BUTTONS */
+  .toggle-group { display:flex; gap:8px; flex-wrap:wrap; }
+  .toggle-btn {
+    padding:8px 16px;
+    border:1px solid var(--border);
+    background:transparent; border-radius:2px;
+    color:var(--muted); font-family:'Jost',sans-serif;
+    font-size:13px; font-weight:400;
+    cursor:pointer; transition:all 0.2s;
+    letter-spacing:0.04em;
+  }
+  .toggle-btn:hover { border-color:var(--gold); color:var(--gold-light); }
+  .toggle-btn.active {
+    background:var(--gold); border-color:var(--gold);
+    color:var(--deep); font-weight:500;
+  }
+
+  /* CALCULATE BUTTON */
+  .cta-btn {
+    width:100%; padding:16px;
+    background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-light) 100%);
+    border:none; border-radius:2px;
+    color:var(--deep); font-family:'Jost',sans-serif;
+    font-size:13px; font-weight:600;
+    letter-spacing:0.25em; text-transform:uppercase;
+    cursor:pointer; transition:all 0.3s;
+    position:relative; overflow:hidden;
+    margin-top:8px;
+  }
+  .cta-btn::before {
+    content:'';
+    position:absolute; inset:0;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    opacity:0; transition:opacity 0.3s;
+  }
+  .cta-btn:hover::before { opacity:1; }
+  .cta-btn span { position:relative; z-index:1; }
+  .cta-btn:active { transform:scale(0.99); }
+
+  /* RESULTS PANEL */
+  .results-sticky { position:sticky; top:24px; }
+
+  /* TOTAL COST DISPLAY */
+  .total-box {
+    text-align:center; padding:40px 32px 32px;
+    border-bottom:1px solid var(--border2);
+    position:relative;
+  }
+  .total-label {
+    font-size:11px; letter-spacing:0.3em; text-transform:uppercase;
+    color:var(--muted); font-weight:500; margin-bottom:12px;
+  }
+  .total-amount {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(36px,5vw,60px);
+    font-weight:300; color:var(--gold-light);
+    line-height:1;
+  }
+  .total-amount span { font-size:0.55em; vertical-align:top; margin-top:8px; display:inline-block; }
+  .total-range {
+    font-size:12px; color:var(--muted);
+    margin-top:8px; letter-spacing:0.05em;
+  }
+  .margin-badge {
+    display:inline-block;
+    padding:4px 10px; margin-top:12px;
+    border:1px solid rgba(201,168,76,0.3);
+    border-radius:20px; font-size:11px;
+    color:var(--gold); letter-spacing:0.1em;
+  }
+
+  /* BREAKDOWN ITEMS */
+  .breakdown-list { padding:24px 32px; }
+  .breakdown-item {
+    display:flex; align-items:center;
+    justify-content:space-between;
+    padding:12px 0;
+    border-bottom:1px solid var(--border2);
+    animation: fadeUp 0.4s ease both;
+  }
+  .breakdown-item:last-child { border-bottom:none; }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(8px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+  .breakdown-dot {
+    width:8px; height:8px; border-radius:50%;
+    flex-shrink:0; margin-right:12px;
+  }
+  .breakdown-name {
+    font-size:13px; color:var(--cream);
+    flex:1; letter-spacing:0.03em;
+  }
+  .breakdown-pct {
+    font-size:11px; color:var(--muted);
+    margin-right:16px; min-width:36px; text-align:right;
+  }
+  .breakdown-cost {
+    font-size:13px; color:var(--gold-light);
+    font-weight:400; min-width:100px; text-align:right;
+    font-family:'Cormorant Garamond',serif; font-size:15px;
+  }
+
+  /* CHARTS SECTION */
+  .charts-section {
+    grid-column:1/-1;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+    margin-top:8px;
+  }
+  @media(max-width:1024px){.charts-section{grid-template-columns:1fr 1fr;}}
+  @media(max-width:640px){.charts-section{grid-template-columns:1fr;}}
+
+  .chart-wrap {
+    padding:20px;
+    aspect-ratio:1/1;
+    display:flex; flex-direction:column;
+  }
+  .chart-wrap.wide { aspect-ratio:auto; min-height:300px; }
+  .chart-title {
+    font-size:11px; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--gold); font-weight:500; margin-bottom:16px;
+  }
+  .chart-canvas-wrap { flex:1; position:relative; min-height:0; }
+  canvas { max-width:100%; }
+
+  /* LOCATION COMPARISON */
+  .location-grid {
+    display:grid; grid-template-columns:repeat(3,1fr);
+    gap:12px; padding:24px 32px;
+  }
+  @media(max-width:600px){.location-grid{grid-template-columns:1fr;}}
+  .loc-card {
+    padding:16px;
+    border:1px solid var(--border2);
+    border-radius:2px; text-align:center;
+    transition:all 0.2s;
+    cursor:default;
+  }
+  .loc-card:hover { border-color:var(--border); }
+  .loc-card.active-loc { border-color:var(--gold); }
+  .loc-name { font-size:12px; color:var(--muted); letter-spacing:0.1em; margin-bottom:8px; }
+  .loc-cost { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--gold-light); }
+  .loc-badge {
+    display:inline-block; margin-top:6px;
+    padding:2px 8px; border-radius:20px;
+    font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
+  }
+  .loc-badge.lower { background:rgba(80,180,120,0.15); color:#7ecfa0; }
+  .loc-badge.higher { background:rgba(220,80,80,0.12); color:#e87777; }
+  .loc-badge.same { background:rgba(201,168,76,0.12); color:var(--gold); }
+
+  /* PLACEHOLDER */
+  .placeholder {
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    min-height:300px; gap:16px;
+    color:var(--muted);
+  }
+  .placeholder-icon { font-size:48px; opacity:0.3; }
+  .placeholder-text { font-size:14px; letter-spacing:0.1em; text-align:center; line-height:1.6; }
+
+  /* PROGRESS BAR FOR CATEGORIES */
+  .prog-bar-wrap { margin-bottom:12px; }
+  .prog-bar-label {
+    display:flex; justify-content:space-between;
+    font-size:12px; color:var(--muted); margin-bottom:5px;
+  }
+  .prog-bar-label span:last-child { color:var(--gold-light); }
+  .prog-bar-bg { height:3px; background:var(--card2); border-radius:2px; overflow:hidden; }
+  .prog-bar-fill { height:100%; border-radius:2px; transition:width 0.8s cubic-bezier(.4,0,.2,1); }
+
+  /* FOOTER */
+  .footer {
+    text-align:center; padding:40px 24px;
+    border-top:1px solid var(--border2);
+    color:var(--muted); font-size:12px; letter-spacing:0.1em;
+  }
+  .footer em { color:var(--gold); font-style:normal; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width:4px; }
+  ::-webkit-scrollbar-track { background:var(--bg); }
+  ::-webkit-scrollbar-thumb { background:var(--gold-dark); border-radius:2px; }
+
+  /* ANIMATIONS */
+  .fade-in { animation:fadeIn 0.6s ease both; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+  .section-divider {
+    grid-column:1/-1;
+    display:flex; align-items:center; gap:16px;
+    padding:8px 0 0;
+  }
+  .section-divider-line { flex:1; height:1px; background:var(--border2); }
+  .section-divider-text {
+    font-family:'Cormorant Garamond',serif;
+    font-size:20px; color:var(--muted); white-space:nowrap;
+    font-style:italic;
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+// ── DATASET ──────────────────────────────────────────────────────────────────
+const DATASET = {
+  venues: {
+    "Luxury Hotel": {
+      "ITC Maurya": { base:800000, perGuest:4500, tag:"5-Star Luxury" },
+      "Hyatt Regency": { base:700000, perGuest:4000, tag:"5-Star Deluxe" },
+      "The Leela Ambience": { base:900000, perGuest:5000, tag:"Ultra Luxury" },
+      "Taj Palace": { base:1000000, perGuest:5500, tag:"Heritage Luxury" },
+    },
+    "Farmhouse": {
+      "Chattarpur Farmhouse A": { base:250000, perGuest:800, tag:"Premium" },
+      "Chattarpur Farmhouse B": { base:180000, perGuest:600, tag:"Classic" },
+      "Sultanpur Farmhouse": { base:200000, perGuest:700, tag:"Rustic Luxury" },
+    },
+    "Banquet Hall": {
+      "Grand Banquet MG Road": { base:150000, perGuest:500, tag:"Central Delhi" },
+      "Royal Banquet Dwarka": { base:120000, perGuest:400, tag:"West Delhi" },
+      "Crystal Banquet Noida": { base:100000, perGuest:350, tag:"NCR" },
+    },
+  },
+  catering: {
+    "Veg Standard": { perPlate:800, desc:"North Indian + South Indian" },
+    "Veg Premium": { perPlate:1400, desc:"Multi-cuisine + Live counters" },
+    "Non-Veg Standard": { perPlate:1200, desc:"Chicken + Paneer + Starters" },
+    "Non-Veg Premium": { perPlate:2000, desc:"Seafood + Continental + BBQ" },
+    "Pure Veg Sattvic": { perPlate:900, desc:"Jain + Organic" },
+    "Premium International": { perPlate:3000, desc:"International + Chef stations" },
+  },
+  decoration: {
+    "Floral Minimal": { base:80000, extra:200 },
+    "Floral Grand": { base:250000, extra:400 },
+    "Royal Theme": { base:400000, extra:600 },
+    "Destination Style": { base:600000, extra:900 },
+    "Rustic Boho": { base:120000, extra:250 },
+    "Modern Luxe": { base:350000, extra:550 },
+  },
+  artists: {
+    "No Artist": 0,
+    "DJ": 40000,
+    "Live Band (Local)": 80000,
+    "Anchor/Emcee": 30000,
+    "Classical Performer": 60000,
+    "Bollywood Singer": 250000,
+    "Celebrity Performer": 1500000,
+    "DJ + Anchor": 65000,
+    "Band + DJ + Anchor": 130000,
+  },
+  hospitality: {
+    "Basic (Welcome Desk)": 15000,
+    "Standard (Welcome + Ushers)": 35000,
+    "Premium (Full Staff)": 70000,
+    "Luxury (Concierge + Valet)": 120000,
+  },
+  eventManager: {
+    "Self-Managed": 0,
+    "Part-time Coordinator": 50000,
+    "Full-Service Planner": 150000,
+    "Premium Wedding Planner": 350000,
+    "Celebrity Planner": 800000,
+  },
+  production: {
+    "Basic Sound + Lights": 60000,
+    "Standard AV Package": 120000,
+    "Premium Stage + Lights": 250000,
+    "Grand Production": 500000,
+    "Ultra LED + Trussing": 800000,
+  },
+  hotelRate: 8000,       // per room per night
+  liquorBase: 300000,    // base for 200 guests
+  liquorPerGuest: 800,
+};
+
+const CHART_COLORS = [
+  '#C9A84C','#E8D49A','#8B6914','#5C1A2E',
+  '#9B7B3A','#D4B896','#7A5C28','#A0522D',
+  '#C4956A','#6B4C32','#B8860B','#DAA520',
+];
+
+const fmt = (n) => '₹' + Math.round(n).toLocaleString('en-IN');
+
+// ── PRICING ENGINE ────────────────────────────────────────────────────────────
+function calculateCosts(form) {
+  const guests = parseInt(form.guests) || 200;
+  const nights = parseInt(form.hotelRooms) > 0 ? 2 : 0;
+  const rooms  = parseInt(form.hotelRooms)  || 0;
+  const miscPct = parseFloat(form.miscPct) / 100 || 0.05;
+  const marginPct = parseFloat(form.margin) / 100 || 0.15;
+
+  const venueData = DATASET.venues[form.venueType]?.[form.venue];
+  const venueCost = venueData ? venueData.base + venueData.perGuest * guests : 0;
+
+  const cateringData = DATASET.catering[form.catering];
+  const cateringCost = cateringData ? cateringData.perPlate * guests * 1.15 : 0;
+
+  const decoData = DATASET.decoration[form.decoration];
+  const decoCost = decoData ? decoData.base + decoData.extra * guests * 0.3 : 0;
+
+  const artistCost = DATASET.artists[form.artist] || 0;
+  const hospCost   = DATASET.hospitality[form.hospitality] || 0;
+  const plannerCost= DATASET.eventManager[form.eventManager] || 0;
+  const prodCost   = DATASET.production[form.production] || 0;
+
+  const hotelCost  = rooms * DATASET.hotelRate * (nights || 2);
+  const liquorCost = form.liquor === 'Yes'
+    ? DATASET.liquorBase + DATASET.liquorPerGuest * guests : 0;
+
+  const subtotal = venueCost + cateringCost + decoCost + artistCost +
+                   hospCost + plannerCost + prodCost + hotelCost + liquorCost;
+
+  const miscCost   = subtotal * miscPct;
+  const afterMisc  = subtotal + miscCost;
+  const margin     = afterMisc * marginPct;
+  const total      = afterMisc + margin;
+
+  return {
+    items:[
+      { name:"Venue",          cost:venueCost,   color:CHART_COLORS[0] },
+      { name:"Catering",       cost:cateringCost,color:CHART_COLORS[1] },
+      { name:"Decoration",     cost:decoCost,    color:CHART_COLORS[2] },
+      { name:"Artist/Anchor",  cost:artistCost,  color:CHART_COLORS[3] },
+      { name:"Hospitality",    cost:hospCost,    color:CHART_COLORS[4] },
+      { name:"Event Planner",  cost:plannerCost, color:CHART_COLORS[5] },
+      { name:"Production",     cost:prodCost,    color:CHART_COLORS[6] },
+      { name:"Hotel Rooms",    cost:hotelCost,   color:CHART_COLORS[7] },
+      { name:"Liquor",         cost:liquorCost,  color:CHART_COLORS[8] },
+      { name:"Miscellaneous",  cost:miscCost,    color:CHART_COLORS[9] },
+    ].filter(i=>i.cost>0),
+    margin, total,
+    subtotal: afterMisc,
+    guests,
+  };
+}
+
+// Location comparison synthetic data
+function locationComparison(form) {
+  const base = calculateCosts(form).total;
+  return [
+    { name:"Chattarpur", cost: base * 0.75, relation:'lower' },
+    { name:"ITC Hotels",  cost: base * 1.1,  relation:'higher' },
+    { name:"Hyatt Regency",cost:base,        relation:'same'  },
+    { name:"Farmhouses",  cost: base * 0.65, relation:'lower' },
+    { name:"Banquet Hall",cost: base * 0.45, relation:'lower' },
+    { name:"Leela Palace",cost: base * 1.25, relation:'higher' },
+  ];
+}
+
+// ── CHART COMPONENTS ──────────────────────────────────────────────────────────
+function PieChart({ data }) {
+  const ref = useRef(); const chartRef = useRef();
+  useEffect(()=>{
+    if(!data || !ref.current) return;
+    if(chartRef.current) chartRef.current.destroy();
+    chartRef.current = new Chart(ref.current, {
+      type:'doughnut',
+      data:{
+        labels: data.items.map(i=>i.name),
+        datasets:[{ data: data.items.map(i=>i.cost),
+          backgroundColor: data.items.map(i=>i.color),
+          borderColor:'#0E0A06', borderWidth:2, hoverOffset:6 }]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:true,
+        cutout:'68%',
+        plugins:{
+          legend:{ display:false },
+          tooltip:{
+            callbacks:{
+              label:(ctx)=>' '+fmt(ctx.parsed)+' ('+Math.round(ctx.parsed/data.total*100)+'%)'
+            },
+            backgroundColor:'#231A0D', borderColor:'rgba(201,168,76,0.3)',
+            borderWidth:1, titleColor:'#E8D49A', bodyColor:'#C9A84C',
+            titleFont:{ family:'Cormorant Garamond', size:14 },
+            bodyFont:{ family:'Jost', size:12 },
+          }
+        }
+      }
+    });
+    return ()=>{ if(chartRef.current) chartRef.current.destroy(); };
+  },[data]);
+  if(!data) return <div className="placeholder"><div className="placeholder-icon">◈</div><div className="placeholder-text">Generate estimate<br/>to see breakdown</div></div>;
+  return <canvas ref={ref}/>;
+}
+
+function BarChart({ data }) {
+  const ref = useRef(); const chartRef = useRef();
+  useEffect(()=>{
+    if(!data || !ref.current) return;
+    if(chartRef.current) chartRef.current.destroy();
+    const items = [...data.items].sort((a,b)=>b.cost-a.cost);
+    chartRef.current = new Chart(ref.current, {
+      type:'bar',
+      data:{
+        labels: items.map(i=>i.name),
+        datasets:[{
+          data: items.map(i=>i.cost),
+          backgroundColor: items.map(i=>i.color+'CC'),
+          borderColor: items.map(i=>i.color),
+          borderWidth:1, borderRadius:2,
+        }]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false, indexAxis:'y',
+        plugins:{
+          legend:{ display:false },
+          tooltip:{
+            callbacks:{ label:(ctx)=>' '+fmt(ctx.parsed.x) },
+            backgroundColor:'#231A0D', borderColor:'rgba(201,168,76,0.3)',
+            borderWidth:1, titleColor:'#E8D49A', bodyColor:'#C9A84C',
+            bodyFont:{ family:'Jost' },
+          }
+        },
+        scales:{
+          x:{
+            grid:{ color:'rgba(201,168,76,0.06)' },
+            ticks:{ color:'#8B7355', font:{family:'Jost',size:11},
+              callback:(v)=>'₹'+Math.round(v/100000)+'L' }
+          },
+          y:{
+            grid:{ display:false },
+            ticks:{ color:'#FAF6EF', font:{family:'Jost',size:11} }
+          }
+        }
+      }
+    });
+    return ()=>{ if(chartRef.current) chartRef.current.destroy(); };
+  },[data]);
+  if(!data) return <div className="placeholder"><div className="placeholder-icon">◈</div><div className="placeholder-text">Generate estimate<br/>to see bar graph</div></div>;
+  return <div style={{height:'100%',minHeight:240}}><canvas ref={ref}/></div>;
+}
+
+function LineChart({ locData, selected }) {
+  const ref = useRef(); const chartRef = useRef();
+  useEffect(()=>{
+    if(!locData || !ref.current) return;
+    if(chartRef.current) chartRef.current.destroy();
+    chartRef.current = new Chart(ref.current, {
+      type:'bar',
+      data:{
+        labels: locData.map(l=>l.name),
+        datasets:[{
+          data: locData.map(l=>l.cost),
+          backgroundColor: locData.map(l=>
+            l.name===selected ? 'rgba(201,168,76,0.9)' : 'rgba(201,168,76,0.25)'
+          ),
+          borderColor: locData.map(l=>
+            l.name===selected ? '#C9A84C' : 'rgba(201,168,76,0.4)'
+          ),
+          borderWidth:1, borderRadius:2,
+        }]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{ display:false },
+          tooltip:{
+            callbacks:{ label:(ctx)=>' '+fmt(ctx.parsed.y) },
+            backgroundColor:'#231A0D', borderColor:'rgba(201,168,76,0.3)',
+            borderWidth:1, titleColor:'#E8D49A', bodyColor:'#C9A84C',
+          }
+        },
+        scales:{
+          y:{
+            grid:{ color:'rgba(201,168,76,0.06)' },
+            ticks:{ color:'#8B7355', font:{family:'Jost',size:11},
+              callback:(v)=>'₹'+Math.round(v/100000)+'L' }
+          },
+          x:{ grid:{display:false}, ticks:{color:'#FAF6EF',font:{family:'Jost',size:11}} }
+        }
+      }
+    });
+    return ()=>{ if(chartRef.current) chartRef.current.destroy(); };
+  },[locData,selected]);
+  if(!locData) return <div className="placeholder"><div className="placeholder-icon">◈</div><div className="placeholder-text">Generate estimate<br/>to compare locations</div></div>;
+  return <div style={{height:'100%',minHeight:220}}><canvas ref={ref}/></div>;
+}
+
+// ── MAIN APP ──────────────────────────────────────────────────────────────────
+export default function App() {
+  const [form, setForm] = useState({
+    venueType:'Farmhouse',
+    venue:'Chattarpur Farmhouse A',
+    guests:'200',
+    catering:'Veg Premium',
+    decoration:'Floral Grand',
+    hospitality:'Standard (Welcome + Ushers)',
+    eventManager:'Full-Service Planner',
+    artist:'DJ + Anchor',
+    liquor:'No',
+    hotelRooms:'20',
+    production:'Standard AV Package',
+    miscPct:'5',
+    margin:'15',
+  });
+
+  const [result, setResult] = useState(null);
+  const [locData, setLocData] = useState(null);
+  const [errors, setErrors] = useState({});
+
+  const update = (k,v) => setForm(f=>({...f,[k]:v}));
+
+  const venueOptions = Object.keys(DATASET.venues[form.venueType]||{});
+
+  useEffect(()=>{
+    const vOpts = Object.keys(DATASET.venues[form.venueType]||{});
+    if(vOpts.length) update('venue', vOpts[0]);
+  }, [form.venueType]);
+
+  const validate = () => {
+    const e={};
+    if(!form.guests || parseInt(form.guests)<10) e.guests='Min 10 guests';
+    if(parseInt(form.guests)>5000) e.guests='Max 5000 guests';
+    return e;
+  };
+
+  const handleCalculate = () => {
+    const e = validate();
+    setErrors(e);
+    if(Object.keys(e).length) return;
+    const r = calculateCosts(form);
+    setResult(r);
+    setLocData(locationComparison(form));
+  };
+
+  const currentVenueTag = DATASET.venues[form.venueType]?.[form.venue]?.tag;
+
+  return (
+    <div className="app">
+      {/* HEADER */}
+      <header className="header">
+        <div className="header-ornament">
+          <div className="ornament-line"></div>
+          <div className="ornament-diamond"></div>
+          <div className="ornament-line right"></div>
+        </div>
+        <div className="header-eyebrow">Delhi NCR · Precision Pricing Engine</div>
+        <h1 className="header-title">AI <em>Wedding</em><br/>Cost Estimator</h1>
+        <p className="header-subtitle">Configure every element of your dream celebration and receive an instant, data-driven cost projection.</p>
+      </header>
+
+      {/* MAIN GRID */}
+      <div className="main">
+
+        {/* ── LEFT: FORM ── */}
+        <div>
+          {/* VENUE */}
+          <div className="card fade-in" style={{marginBottom:24}}>
+            <div className="card-header">
+              <div className="card-icon">⛩</div>
+              <div className="card-title">Venue & Scale</div>
+            </div>
+            <div className="card-body">
+
+              <div className="form-group">
+                <label>Venue Category</label>
+                <div className="toggle-group">
+                  {Object.keys(DATASET.venues).map(t=>(
+                    <button key={t} className={`toggle-btn${form.venueType===t?' active':''}`}
+                      onClick={()=>update('venueType',t)}>{t}</button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>Specific Venue {currentVenueTag && <span style={{color:'var(--muted)',marginLeft:8,fontWeight:300,letterSpacing:'0.05em',textTransform:'none',fontSize:'10px'}}>– {currentVenueTag}</span>}</label>
+                <select value={form.venue} onChange={e=>update('venue',e.target.value)}>
+                  {venueOptions.map(v=><option key={v}>{v}</option>)}
+                </select>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group" style={{marginBottom:0}}>
+                  <label>Total Guests</label>
+                  <input type="number" value={form.guests}
+                    onChange={e=>update('guests',e.target.value)}
+                    min="10" max="5000" placeholder="200"/>
+                  {errors.guests && <div style={{color:'#e87777',fontSize:'11px',marginTop:4}}>{errors.guests}</div>}
+                </div>
+                <div className="form-group" style={{marginBottom:0}}>
+                  <label>Hotel Rooms</label>
+                  <input type="number" value={form.hotelRooms}
+                    onChange={e=>update('hotelRooms',e.target.value)}
+                    min="0" max="500" placeholder="20"/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* SERVICES */}
+          <div className="card fade-in" style={{marginBottom:24,animationDelay:'0.1s'}}>
+            <div className="card-header">
+              <div className="card-icon">✦</div>
+              <div className="card-title">Services & Catering</div>
+            </div>
+            <div className="card-body">
+
+              <div className="form-group">
+                <label>Catering Package</label>
+                <select value={form.catering} onChange={e=>update('catering',e.target.value)}>
+                  {Object.entries(DATASET.catering).map(([k,v])=>(
+                    <option key={k} value={k}>{k} — {v.desc}</option>
+                  ))}
+                </select>
+                {DATASET.catering[form.catering] && (
+                  <div style={{fontSize:'12px',color:'var(--gold)',marginTop:6}}>
+                    ₹{DATASET.catering[form.catering].perPlate.toLocaleString('en-IN')} per plate
+                  </div>
+                )}
+              </div>
+
+              <div className="form-group">
+                <label>Decoration Style</label>
+                <select value={form.decoration} onChange={e=>update('decoration',e.target.value)}>
+                  {Object.keys(DATASET.decoration).map(k=><option key={k}>{k}</option>)}
+                </select>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group" style={{marginBottom:0}}>
+                  <label>Hospitality</label>
+                  <select value={form.hospitality} onChange={e=>update('hospitality',e.target.value)}>
+                    {Object.keys(DATASET.hospitality).map(k=><option key={k}>{k}</option>)}
+                  </select>
+                </div>
+                <div className="form-group" style={{marginBottom:0}}>
+                  <label>Production (AV)</label>
+                  <select value={form.production} onChange={e=>update('production',e.target.value)}>
+                    {Object.keys(DATASET.production).map(k=><option key={k}>{k}</option>)}
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* EXTRAS */}
+          <div className="card fade-in" style={{marginBottom:24,animationDelay:'0.2s'}}>
+            <div className="card-header">
+              <div className="card-icon">♪</div>
+              <div className="card-title">Entertainment & Extras</div>
+            </div>
+            <div className="card-body">
+
+              <div className="form-group">
+                <label>Artist / Performer</label>
+                <select value={form.artist} onChange={e=>update('artist',e.target.value)}>
+                  {Object.keys(DATASET.artists).map(k=><option key={k}>{k}</option>)}
+                </select>
+                {DATASET.artists[form.artist]>0 && (
+                  <div style={{fontSize:'12px',color:'var(--gold)',marginTop:6}}>
+                    {fmt(DATASET.artists[form.artist])}
+                  </div>
+                )}
+              </div>
+
+              <div className="form-group">
+                <label>Event Manager / Planner</label>
+                <select value={form.eventManager} onChange={e=>update('eventManager',e.target.value)}>
+                  {Object.keys(DATASET.eventManager).map(k=><option key={k}>{k}</option>)}
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Liquor / Bar Service</label>
+                <div className="toggle-group">
+                  {['Yes','No'].map(opt=>(
+                    <button key={opt} className={`toggle-btn${form.liquor===opt?' active':''}`}
+                      onClick={()=>update('liquor',opt)}>{opt}</button>
+                  ))}
+                </div>
+                {form.liquor==='Yes' && (
+                  <div style={{fontSize:'12px',color:'var(--gold)',marginTop:8}}>
+                    Estimated: {fmt(DATASET.liquorBase + DATASET.liquorPerGuest*(parseInt(form.guests)||200))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* MARGINS */}
+          <div className="card fade-in" style={{marginBottom:24,animationDelay:'0.3s'}}>
+            <div className="card-header">
+              <div className="card-icon">%</div>
+              <div className="card-title">Pricing Parameters</div>
+            </div>
+            <div className="card-body">
+
+              <div className="form-group">
+                <label>Miscellaneous Buffer</label>
+                <div className="range-wrap">
+                  <input type="range" min="2" max="20" step="1"
+                    value={form.miscPct}
+                    style={{'--pct': ((form.miscPct-2)/(20-2)*100)+'%'}}
+                    onChange={e=>update('miscPct',e.target.value)}/>
+                  <div className="range-labels">
+                    <span>2%</span><span>20%</span>
+                  </div>
+                  <div className="range-value">{form.miscPct}% of subtotal</div>
+                </div>
+              </div>
+
+              <div className="form-group" style={{marginBottom:0}}>
+                <label>Profit Margin / Markup</label>
+                <div className="range-wrap">
+                  <input type="range" min="10" max="30" step="1"
+                    value={form.margin}
+                    style={{'--pct': ((form.margin-10)/(30-10)*100)+'%'}}
+                    onChange={e=>update('margin',e.target.value)}/>
+                  <div className="range-labels">
+                    <span>10%</span><span>30%</span>
+                  </div>
+                  <div className="range-value">{form.margin}% markup</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button className="cta-btn" onClick={handleCalculate}>
+            <span>✦ Generate Cost Estimate</span>
+          </button>
+        </div>
+
+        {/* ── RIGHT: RESULTS ── */}
+        <div className="results-sticky">
+          <div className="card fade-in" style={{animationDelay:'0.15s'}}>
+            <div className="total-box">
+              <div className="total-label">Estimated Total Investment</div>
+              {result ? (<>
+                <div className="total-amount">
+                  <span>₹</span>{Math.round(result.total/100000).toLocaleString('en-IN')}L
+                </div>
+                <div className="total-range">
+                  Range: {fmt(result.total*0.9)} – {fmt(result.total*1.1)}
+                </div>
+                <div className="margin-badge">
+                  Incl. {form.margin}% markup · ₹{Math.round(result.margin/1000)}K vendor margin
+                </div>
+              </>) : (
+                <div style={{color:'var(--muted)',fontSize:14,marginTop:8,letterSpacing:'0.1em'}}>
+                  Fill form & calculate →
+                </div>
+              )}
+            </div>
+
+            {result ? (
+              <>
+                <div className="breakdown-list">
+                  {result.items.map((item,i)=>(
+                    <div className="breakdown-item" key={item.name}
+                      style={{animationDelay:`${i*0.06}s`}}>
+                      <div className="breakdown-dot" style={{background:item.color}}/>
+                      <div className="breakdown-name">{item.name}</div>
+                      <div className="breakdown-pct">
+                        {Math.round(item.cost/result.total*100)}%
+                      </div>
+                      <div className="breakdown-cost">{fmt(item.cost)}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Progress bars */}
+                <div style={{padding:'0 32px 24px'}}>
+                  <div style={{fontSize:'11px',letterSpacing:'0.2em',color:'var(--gold)',textTransform:'uppercase',fontWeight:500,marginBottom:12}}>Cost Distribution</div>
+                  {result.items.slice(0,5).map(item=>(
+                    <div className="prog-bar-wrap" key={item.name}>
+                      <div className="prog-bar-label">
+                        <span>{item.name}</span>
+                        <span>{fmt(item.cost)}</span>
+                      </div>
+                      <div className="prog-bar-bg">
+                        <div className="prog-bar-fill"
+                          style={{width:Math.round(item.cost/result.total*100)+'%',background:item.color}}/>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <div className="placeholder" style={{minHeight:200}}>
+                <div className="placeholder-icon" style={{fontSize:36}}>◈</div>
+                <div className="placeholder-text">Configure your wedding details<br/>and click Calculate</div>
+              </div>
+            )}
+          </div>
+
+          {/* Location comparison */}
+          {locData && (
+            <div className="card fade-in" style={{marginTop:24}}>
+              <div className="card-header">
+                <div className="card-icon">⊕</div>
+                <div className="card-title">Location Comparison</div>
+              </div>
+              <div className="location-grid">
+                {locData.map(loc=>(
+                  <div key={loc.name}
+                    className={`loc-card${loc.relation==='same'?' active-loc':''}`}>
+                    <div className="loc-name">{loc.name}</div>
+                    <div className="loc-cost">₹{Math.round(loc.cost/100000)}L</div>
+                    <div className={`loc-badge ${loc.relation}`}>
+                      {loc.relation==='lower'?'Cheaper':loc.relation==='higher'?'Premium':'Selected'}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* ── CHARTS SECTION ── */}
+        {result && (
+          <>
+            <div className="section-divider">
+              <div className="section-divider-line"></div>
+              <div className="section-divider-text">Visual Analytics</div>
+              <div className="section-divider-line"></div>
+            </div>
+
+            <div className="charts-section">
+              <div className="card chart-wrap">
+                <div className="chart-title">Cost Breakdown — Pie</div>
+                <div className="chart-canvas-wrap">
+                  <PieChart data={result}/>
+                </div>
+              </div>
+
+              <div className="card chart-wrap wide" style={{aspectRatio:'auto'}}>
+                <div className="chart-title">Category-wise Spend — Bar</div>
+                <div className="chart-canvas-wrap" style={{minHeight:260}}>
+                  <BarChart data={result}/>
+                </div>
+              </div>
+
+              <div className="card chart-wrap wide" style={{aspectRatio:'auto'}}>
+                <div className="chart-title">Venue Location Comparison</div>
+                <div className="chart-canvas-wrap" style={{minHeight:220}}>
+                  <LineChart locData={locData} selected={form.venue}/>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* SUMMARY TABLE */}
+        {result && (
+          <div className="card fade-in" style={{gridColumn:'1/-1',marginTop:8}}>
+            <div className="card-header">
+              <div className="card-icon">≡</div>
+              <div className="card-title">Detailed Cost Summary</div>
+            </div>
+            <div style={{overflowX:'auto'}}>
+              <table style={{width:'100%',borderCollapse:'collapse',fontFamily:'Jost',fontSize:13}}>
+                <thead>
+                  <tr style={{borderBottom:'1px solid var(--border)'}}>
+                    {['Category','Base Estimate','Per Guest','Total','% of Budget'].map(h=>(
+                      <th key={h} style={{padding:'12px 20px',textAlign:'left',color:'var(--gold)',fontWeight:500,fontSize:11,letterSpacing:'0.2em',textTransform:'uppercase',whiteSpace:'nowrap'}}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {result.items.map((item,i)=>(
+                    <tr key={item.name} style={{borderBottom:'1px solid var(--border2)',transition:'background 0.2s'}}
+                      onMouseEnter={e=>e.currentTarget.style.background='rgba(201,168,76,0.04)'}
+                      onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
+                      <td style={{padding:'13px 20px',display:'flex',alignItems:'center',gap:10}}>
+                        <span style={{width:8,height:8,borderRadius:'50%',background:item.color,display:'inline-block',flexShrink:0}}/>
+                        {item.name}
+                      </td>
+                      <td style={{padding:'13px 20px',color:'var(--muted)'}}>{fmt(item.cost*0.85)}</td>
+                      <td style={{padding:'13px 20px',color:'var(--muted)'}}>
+                        {result.guests>0?fmt(item.cost/result.guests):'-'}
+                      </td>
+                      <td style={{padding:'13px 20px',color:'var(--gold-light)',fontFamily:'Cormorant Garamond',fontSize:15}}>{fmt(item.cost)}</td>
+                      <td style={{padding:'13px 20px'}}>
+                        <div style={{display:'flex',alignItems:'center',gap:8}}>
+                          <div style={{flex:1,height:3,background:'var(--card2)',borderRadius:2,maxWidth:80}}>
+                            <div style={{height:'100%',width:Math.round(item.cost/result.total*100)+'%',background:item.color,borderRadius:2}}/>
+                          </div>
+                          <span style={{color:'var(--muted)',minWidth:32}}>{Math.round(item.cost/result.total*100)}%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                  <tr style={{borderTop:'1px solid var(--border)'}}>
+                    <td colSpan={3} style={{padding:'14px 20px',fontWeight:500,letterSpacing:'0.1em',color:'var(--cream)'}}>TOTAL INVESTMENT</td>
+                    <td style={{padding:'14px 20px',fontFamily:'Cormorant Garamond',fontSize:18,color:'var(--gold-light)',fontWeight:400}}>{fmt(result.total)}</td>
+                    <td style={{padding:'14px 20px',color:'var(--gold)'}}>100%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+      </div>
+
+      <footer className="footer">
+        <div className="header-ornament" style={{marginBottom:16}}>
+          <div className="ornament-line"></div>
+          <div className="ornament-diamond"></div>
+          <div className="ornament-line right"></div>
+        </div>
+        <em>AI Wedding Cost Estimator</em> · Delhi NCR · Pricing data reflects 2024–25 market rates<br/>
+        <span style={{fontSize:11,marginTop:6,display:'block'}}>All figures are estimates. Final costs may vary ±15% based on seasonality, vendor negotiation, and availability.</span>
+      </footer>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
