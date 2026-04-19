@@ -1,0 +1,106 @@
+{
+  "metadata": {
+    "source": "AI Wedding Cost Estimator — Synthetic Dataset",
+    "region": "Delhi NCR, India",
+    "year": "2024–25",
+    "currency": "INR"
+  },
+
+  "venues": [
+    { "id":"V001", "name":"ITC Maurya",           "type":"Luxury Hotel",  "area":"Chanakyapuri",   "baseRental":800000, "perGuestCharge":4500, "capacity":1500, "indoorOutdoor":"Both",  "rating":4.9 },
+    { "id":"V002", "name":"Hyatt Regency Delhi",  "type":"Luxury Hotel",  "area":"Bhikaiji Cama",  "baseRental":700000, "perGuestCharge":4000, "capacity":1200, "indoorOutdoor":"Both",  "rating":4.8 },
+    { "id":"V003", "name":"The Leela Ambience",   "type":"Luxury Hotel",  "area":"Gurugram",        "baseRental":900000, "perGuestCharge":5000, "capacity":2000, "indoorOutdoor":"Both",  "rating":4.9 },
+    { "id":"V004", "name":"Taj Palace",            "type":"Luxury Hotel",  "area":"Diplomatic Enclave","baseRental":1000000,"perGuestCharge":5500,"capacity":1800,"indoorOutdoor":"Both", "rating":5.0 },
+    { "id":"V005", "name":"Chattarpur Farmhouse A","type":"Farmhouse",     "area":"Chattarpur",     "baseRental":250000, "perGuestCharge":800,  "capacity":800,  "indoorOutdoor":"Outdoor","rating":4.5 },
+    { "id":"V006", "name":"Chattarpur Farmhouse B","type":"Farmhouse",     "area":"Chattarpur",     "baseRental":180000, "perGuestCharge":600,  "capacity":600,  "indoorOutdoor":"Outdoor","rating":4.2 },
+    { "id":"V007", "name":"Sultanpur Farmhouse",   "type":"Farmhouse",     "area":"Sultanpur",      "baseRental":200000, "perGuestCharge":700,  "capacity":700,  "indoorOutdoor":"Both",  "rating":4.3 },
+    { "id":"V008", "name":"Grand Banquet MG Road", "type":"Banquet Hall",  "area":"MG Road",        "baseRental":150000, "perGuestCharge":500,  "capacity":500,  "indoorOutdoor":"Indoor","rating":4.0 },
+    { "id":"V009", "name":"Royal Banquet Dwarka",  "type":"Banquet Hall",  "area":"Dwarka",         "baseRental":120000, "perGuestCharge":400,  "capacity":400,  "indoorOutdoor":"Indoor","rating":3.9 },
+    { "id":"V010", "name":"Crystal Banquet Noida", "type":"Banquet Hall",  "area":"Noida",          "baseRental":100000, "perGuestCharge":350,  "capacity":450,  "indoorOutdoor":"Indoor","rating":4.0 }
+  ],
+
+  "catering": [
+    { "id":"C001", "package":"Veg Standard",          "perPlate":800,  "cuisine":"North + South Indian",      "liveCounters":0, "desserts":10 },
+    { "id":"C002", "package":"Veg Premium",           "perPlate":1400, "cuisine":"Multi-cuisine",              "liveCounters":4, "desserts":20 },
+    { "id":"C003", "package":"Non-Veg Standard",      "perPlate":1200, "cuisine":"Chicken + Paneer + Starters","liveCounters":2, "desserts":12 },
+    { "id":"C004", "package":"Non-Veg Premium",       "perPlate":2000, "cuisine":"Seafood + Continental + BBQ","liveCounters":5, "desserts":25 },
+    { "id":"C005", "package":"Pure Veg Sattvic",      "perPlate":900,  "cuisine":"Jain + Organic",             "liveCounters":2, "desserts":15 },
+    { "id":"C006", "package":"Premium International", "perPlate":3000, "cuisine":"Global Chef Stations",       "liveCounters":8, "desserts":30 }
+  ],
+
+  "decoration": [
+    { "id":"D001", "style":"Floral Minimal",    "basePackage":80000,  "extraPerGuest":200, "flowerType":"Carnations",    "installHours":6  },
+    { "id":"D002", "style":"Floral Grand",      "basePackage":250000, "extraPerGuest":400, "flowerType":"Roses+Orchids", "installHours":12 },
+    { "id":"D003", "style":"Royal Theme",       "basePackage":400000, "extraPerGuest":600, "flowerType":"Exotic Blooms", "installHours":18 },
+    { "id":"D004", "style":"Destination Style", "basePackage":600000, "extraPerGuest":900, "flowerType":"Tropical Mix",  "installHours":24 },
+    { "id":"D005", "style":"Rustic Boho",       "basePackage":120000, "extraPerGuest":250, "flowerType":"Dried+Wildflowers","installHours":8},
+    { "id":"D006", "style":"Modern Luxe",       "basePackage":350000, "extraPerGuest":550, "flowerType":"Whites+Greens", "installHours":16 }
+  ],
+
+  "artists": [
+    { "id":"A001", "type":"No Artist",           "cost":0,       "duration":"N/A" },
+    { "id":"A002", "type":"DJ",                  "cost":40000,   "duration":"6 hrs" },
+    { "id":"A003", "type":"Live Band (Local)",   "cost":80000,   "duration":"4 hrs" },
+    { "id":"A004", "type":"Anchor/Emcee",        "cost":30000,   "duration":"Full event" },
+    { "id":"A005", "type":"Classical Performer", "cost":60000,   "duration":"2 hrs" },
+    { "id":"A006", "type":"Bollywood Singer",    "cost":250000,  "duration":"90 min" },
+    { "id":"A007", "type":"Celebrity Performer", "cost":1500000, "duration":"60 min" },
+    { "id":"A008", "type":"DJ + Anchor",         "cost":65000,   "duration":"6 hrs" },
+    { "id":"A009", "type":"Band + DJ + Anchor",  "cost":130000,  "duration":"8 hrs" }
+  ],
+
+  "hospitality": [
+    { "id":"H001", "tier":"Basic (Welcome Desk)",       "cost":15000,  "staff":3  },
+    { "id":"H002", "tier":"Standard (Welcome + Ushers)","cost":35000,  "staff":8  },
+    { "id":"H003", "tier":"Premium (Full Staff)",       "cost":70000,  "staff":15 },
+    { "id":"H004", "tier":"Luxury (Concierge + Valet)", "cost":120000, "staff":25 }
+  ],
+
+  "eventManagers": [
+    { "id":"EM001", "tier":"Self-Managed",           "cost":0,      "teamSize":0  },
+    { "id":"EM002", "tier":"Part-time Coordinator",  "cost":50000,  "teamSize":2  },
+    { "id":"EM003", "tier":"Full-Service Planner",   "cost":150000, "teamSize":5  },
+    { "id":"EM004", "tier":"Premium Wedding Planner","cost":350000, "teamSize":10 },
+    { "id":"EM005", "tier":"Celebrity Planner",      "cost":800000, "teamSize":20 }
+  ],
+
+  "production": [
+    { "id":"P001", "type":"Basic Sound + Lights",     "cost":60000,  "equipment":"PA System + LED Par" },
+    { "id":"P002", "type":"Standard AV Package",      "cost":120000, "equipment":"Line Array + Moving Heads" },
+    { "id":"P003", "type":"Premium Stage + Lights",   "cost":250000, "equipment":"Stage + Truss + Laser" },
+    { "id":"P004", "type":"Grand Production",         "cost":500000, "equipment":"Full LED Wall + Pyro Ready" },
+    { "id":"P005", "type":"Ultra LED + Trussing",     "cost":800000, "equipment":"360° LED + CO2 Cannons" }
+  ],
+
+  "hotelRates": {
+    "ratePerRoomPerNight": 8000,
+    "luxury5StarRate": 15000,
+    "standard4StarRate": 8000,
+    "budget3StarRate": 4000
+  },
+
+  "liquorPackages": [
+    { "guestCount":100, "estimatedCost":220000 },
+    { "guestCount":200, "estimatedCost":460000 },
+    { "guestCount":300, "estimatedCost":680000 },
+    { "guestCount":500, "estimatedCost":1100000 }
+  ],
+
+  "locationMultipliers": {
+    "Chattarpur":        0.75,
+    "ITC Hotels Area":   1.10,
+    "Hyatt Regency Area":1.00,
+    "South Delhi":       0.95,
+    "Gurugram":          0.90,
+    "Noida":             0.80,
+    "Faridabad":         0.70
+  },
+
+  "sampleEstimates": [
+    { "guests":200, "venueType":"Farmhouse",    "cateringType":"Veg Premium",   "estimatedTotal":2200000 },
+    { "guests":300, "venueType":"Luxury Hotel", "cateringType":"Non-Veg Premium","estimatedTotal":5800000 },
+    { "guests":150, "venueType":"Banquet Hall", "cateringType":"Veg Standard",  "estimatedTotal":980000  },
+    { "guests":500, "venueType":"Luxury Hotel", "cateringType":"Premium International","estimatedTotal":12000000 },
+    { "guests":100, "venueType":"Farmhouse",    "cateringType":"Veg Standard",  "estimatedTotal":750000  }
+  ]
+}
